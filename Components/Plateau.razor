@@ -1,19 +1,18 @@
-@if (GameOver)
-{
-    <div class="overTitle">
-        <h2 class="@(GameWin ? "win" : " lose")">Game Over!</h2>
-        @if (GameWin)
-        {
-            <h3 class="win">You Win!</h3>
-        }
-        else
-        {
-            <h3 class="lose">You Lose!</h3>
-        }
-    </div>
-}
-
 <div class="plateau @(GameOver ? "gameOver" : "")">
+    @if (GameOver)
+    {
+        <div class="overTitle">
+            <h2 class="@(GameWin ? "win" : " lose")">Game Over!</h2>
+            @if (GameWin)
+            {
+                <h3 class="win">You Win!</h3>
+            }
+            else
+            {
+                <h3 class="lose">You Lose!</h3>
+            }
+        </div>
+    }
     @for (int x = 0; x < Rows; x++)
     {
         <div class="row">
