@@ -1,0 +1,70 @@
+<h1>Hangman</h1>
+
+<div>
+    <p>Mot à deviner : @displayWord</p>
+    <p>Lettres déjà essayées : @string.Join(", ", TriedLetters)</p>
+    <p>Nombre d'essais restants : @(maxAttempts - currentAttempts)</p>
+</div>
+
+<div>
+    <label for='letter'>Entrée une lettre : </label>
+    <input @bind="letter" maxlength="1" id='letter'/>
+    <button @onclick="TryLetter" for='letter'>Essayer la lettre</button>
+    <span style="color:red">@errorEnter</span>
+</div>
+
+
+@code {
+    private string letter = string.Empty;
+    private string displayWord = string.Empty;
+    private string wordToGuess = string.Empty;
+    private List<string> words = new List<string> { "EXEMPLE", "BLAZER", "ORDINATEUR", "PROGRAMMATION", "DEVELOPPEUR" };
+    private string errorEnter = string.Empty;
+    private List<char> TriedLetters = new List<char>();
+    private int maxAttempts = 10;
+    private int currentAttempts = 0;
+
+    protected override void OnInitialized()
+    {
+        var random = new Random();
+        wordToGuess = words[random.Next(words.Count)];
+        DisplayWord();
+    }
+
+    private void TryLetter()
+    {
+        errorEnter = string.Empty;
+        currentAttempts++;
+        letter = letter.ToUpper().Trim();
+        if (string.IsNullOrWhiteSpace(letter) || letter.Length != 1)
+        {
+            errorEnter = "Veuillez entrer une seule lettre.";
+            return;
+        }
+
+        char guessedChar = letter[0];
+
+        if (!TriedLetters.Contains(guessedChar))
+        {
+            TriedLetters.Add(guessedChar);
+        }
+        else
+        {
+            errorEnter = "Vous avez déjà essayé cette lettre.";
+            return;
+        }
+        DisplayWord();
+        letter = string.Empty; 
+    }
+
+    private void DisplayWord()
+    {
+
+        char[] displayArray = new char[wordToGuess.Length];
+        for (int i = 0; i < wordToGuess.Length; i++)
+        {
+            displayArray[i] = TriedLetters.Contains(wordToGuess[i]) ? wordToGuess[i] : '_';
+        }
+        displayWord = new string(displayArray);
+    }
+}

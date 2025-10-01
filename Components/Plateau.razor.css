@@ -1,0 +1,45 @@
+.plateau {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  background-color: #e0cda9;
+  border: 2px solid #8b5a2b;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px 30px;
+  margin: 20px auto;
+  width: max-content;
+}
+
+.overTitle {
+  position: absolute;
+  left: 57.4%;
+  transform: translateX(-50%);
+  top: 40%;
+
+  text-align: center;
+  margin-bottom: 15px;
+  z-index: 2;
+}
+
+.win {
+  color: #228b22;
+  font-size: 60px;
+  font-weight: bold;
+}
+.lose {
+  color: #b22222;
+  font-size: 60px;
+  font-weight: bold;
+}
+
+.gameOver {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}

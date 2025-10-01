@@ -1,0 +1,58 @@
+@if (CurrentCase is not null)
+{
+
+    @if (CurrentCase.IsOpen)
+    {
+
+        @if (CurrentCase.HasMine)
+        {
+            <div class="case @(!CurrentCase.IsDefused ? "mined" : "defused")">
+                <p> * </p>
+            </div>
+        }
+        else
+        {
+            <div class="case">
+                @if (CurrentCase.AdjacentMines != 0)
+                {
+                    <p> @CurrentCase.AdjacentMines </p>
+                }
+            </div>
+        }
+    }
+    else
+    {
+        <div class="case closed" @onclick="OpenCell" @oncontextmenu="FlagCell" @oncontextmenu:preventDefault>
+            @if (CurrentCase.IsFlagged)
+            {
+                <p> F </p>
+            }
+        </div>
+    }
+}
+
+@code {
+    [Parameter]
+    public CaseInfo? CurrentCase { get; set; }
+
+    private void FlagCell(MouseEventArgs e)
+    {
+        if (CurrentCase is not null)
+        {
+            if (!CurrentCase.IsOpen)
+                CurrentCase.IsFlagged = !CurrentCase.IsFlagged;
+        }
+    }
+    private void OpenCell()
+    {
+        if (CurrentCase is not null)
+        {
+            if (!CurrentCase.IsFlagged)
+            {
+                CurrentCase.IsOpen = true;
+                Mediator<ClickMessage>.Instance.Notify(new ClickMessage(CurrentCase.Position));
+            }
+        }
+    }
+
+}
