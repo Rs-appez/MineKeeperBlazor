@@ -10,7 +10,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 
 builder.Services.AddHttpClient(ApiName.DinoApi, options =>
 {
-    options.BaseAddress = new Uri("https://localhost:5192/");
+    options.BaseAddress = new Uri("http://localhost:5192/");
 });
 
 await builder.Build().RunAsync();
