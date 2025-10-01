@@ -1,0 +1,29 @@
+@page "/dino"
+
+<PageTitle>Dino</PageTitle>
+<h1>Dino</h1>
+
+@if(_dinos is null)
+{
+    <p>Loading data, please wait...</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Espece</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(Dino dino in _dinos)
+            {
+                <tr>
+                    <td>@dino.Id</td>
+                    <td>@dino.Espece</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
