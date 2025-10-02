@@ -4,8 +4,10 @@ namespace blazorEx.Components;
 
 public partial class Plateau
 {
-    private int Rows { get; set; } = 10;
-    private int NumberOfMines { get; set; } = 10;
+    private int _rows = 10;
+    private int Rows { get => _rows; set { _rows = value; InitGame(); } }
+    private int _columns = 10;
+    private int NumberOfMines { get => _columns; set { _columns = value; InitGame(); } }
     private int ClearedCells { get; set; } = 0;
     private bool GameOver { get; set; } = false;
     private bool GameWin { get; set; } = false;

@@ -1,3 +1,9 @@
+<div class="info">
+    <label>Rows :</label>
+    <input type="number" @bind="Rows" min="5" max="20" />
+    <label>Mines :</label>
+    <input type="number" @bind="NumberOfMines" min="1" max="50" />
+</div>
 <div class="plateau @(GameOver ? "gameOver" : "")">
     @if (GameOver)
     {
@@ -28,4 +34,3 @@
 {
     <button @onclick="InitGame">Restart Game</button>
 }
-
