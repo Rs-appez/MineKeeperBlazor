@@ -4,24 +4,20 @@ using Microsoft.AspNetCore.Components;
 
 namespace blazorEx.Pages;
 
-public partial class DinoPage : ComponentBase
+public partial class DinoDetail : ComponentBase
 {
+    [Parameter]
+    public int Id { get; set; }
+
     [Inject]
     public IHttpClientFactory HttpClientFactory { get; set; }
-    [Inject]
-    public NavigationManager Navigation { get; set; }
 
     private HttpClient HttpClient => HttpClientFactory.CreateClient(ApiName.DinoApi);
-    private List<Dino>? _dinos;
 
+    private Dino? _dino;
 
     protected override async Task OnInitializedAsync()
     {
-        _dinos = await HttpClient.GetFromJsonAsync<List<Dino>>("api/dino");
-    }
-
-    private void GoToDetail(int id)
-    {
-        Navigation.NavigateTo("/dino/" + id);
+        _dino = await HttpClient.GetFromJsonAsync<Dino>($"api/dino/{Id}");
     }
 }

@@ -1,0 +1,21 @@
+@page "/dino/{Id:int}"
+
+<PageTitle>Dino Detail</PageTitle>
+<h1>Dino Detail</h1>
+@if (_dino is null)
+{
+        <p>Loading data, please wait...</p>
+}
+else
+{
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">@_dino.Espece</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Id: @_dino.Id</h6>
+                <p class="card-text">Weight: @_dino.WeightKg kg</p>
+                <p class="card-text">Height: @_dino.LengthMeters m</p>
+                <a href="/dino" class="card-link">Back to list</a>
+            </div>
+        </div>
+}
+

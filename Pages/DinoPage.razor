@@ -19,7 +19,7 @@ else
         <tbody>
             @foreach(Dino dino in _dinos)
             {
-                <tr>
+                <tr @onclick="() => GoToDetail(dino.Id)" style="cursor: pointer;">
                     <td>@dino.Id</td>
                     <td>@dino.Espece</td>
                 </tr>
