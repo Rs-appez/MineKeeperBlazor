@@ -43,6 +43,10 @@ public partial class Plateau
     }
     private void PlaceMines((int, int) firstClickPosition)
     {
+        if (NumberOfMines >= Cases.Count)
+        {
+            NumberOfMines = Cases.Count - 1;
+        }
         var rand = new Random();
         while (Mines.Count < NumberOfMines)
         {
