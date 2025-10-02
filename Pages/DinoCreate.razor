@@ -1,0 +1,23 @@
+@page "/dino/create"
+
+<PageTitle>Create Dino</PageTitle>
+<h1>Create Dino</h1>
+
+<EditForm Model="@_dino" OnSubmit="CreateDino">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label for="species" class="form-label">Species</label>
+        <InputText id="species" class="form-control" @bind-Value="_dino.Espece" />
+    </div>
+    <div class="mb-3">
+        <label for="wheight" class="form-label">Wheight</label>
+        <InputNumber id="wheight" class="form-control" @bind-Value="_dino.WeightKg" />
+    </div>
+    <div class="mb-3">
+        <label for="length" class="form-label">Length</label>
+        <InputNumber id="length" class="form-control" @bind-Value="_dino.LengthMeters" />
+    </div>
+    <input type="submit" value="Create" class="btn btn-primary" />
+</EditForm>
