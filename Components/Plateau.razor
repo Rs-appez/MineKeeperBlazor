@@ -18,7 +18,7 @@
         <div class="row">
             @for (int y = 0; y < Rows; y++)
             {
-                <Cell CurrentCase="Cases[(x, y)]" />
+                <Cell CurrentCase="Cases[(x, y)]" OnCellClick="OnClick" />
             }
         </div>
     }

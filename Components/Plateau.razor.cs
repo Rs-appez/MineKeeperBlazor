@@ -1,9 +1,8 @@
-using blazorEx.Messages;
 using blazorEx.Models.Entities;
-using blazorEx.Tools;
 
 namespace blazorEx.Components;
-public partial class Plateau : IDisposable
+
+public partial class Plateau
 {
     private int Rows { get; set; } = 10;
     private int NumberOfMines { get; set; } = 10;
@@ -16,7 +15,6 @@ public partial class Plateau : IDisposable
 
     protected override void OnInitialized()
     {
-        Mediator<ClickMessage>.Instance.Subscribe(OnClick);
         InitGame();
     }
     private void InitGame()
@@ -41,7 +39,7 @@ public partial class Plateau : IDisposable
             }
         }
     }
-    private void PlaceMines((int,int) firstClickPosition)
+    private void PlaceMines((int, int) firstClickPosition)
     {
         var rand = new Random();
         while (Mines.Count < NumberOfMines)
@@ -65,14 +63,14 @@ public partial class Plateau : IDisposable
         }
 
     }
-    private void OnClick(ClickMessage message)
+    private void OnClick((int, int) position)
     {
         if (Mines.Count == 0)
         {
-            PlaceMines(message.Position);
+            PlaceMines(position);
             CountAdjacentMines();
         }
-        CaseInfo clickedCell = Cases[message.Position];
+        CaseInfo clickedCell = Cases[position];
         if (CheckDeath(clickedCell))
         {
             StateHasChanged();
@@ -80,7 +78,7 @@ public partial class Plateau : IDisposable
         }
 
         ClearedCells++;
-        if (clickedCell.AdjacentMines == 0) OpenRecursively(message.Position);
+        if (clickedCell.AdjacentMines == 0) OpenRecursively(position);
         CheckWin();
         StateHasChanged();
     }
@@ -114,18 +112,26 @@ public partial class Plateau : IDisposable
 
     private void OpenRecursively((int x, int y) position)
     {
-        DoOnAdjacentCells(position, cell =>
+        var queue = new Queue<(int x, int y)>();
+        queue.Enqueue(position);
+
+        while (queue.Count > 0)
         {
-            if (!cell.IsOpen && !cell.IsFlagged)
+            var current = queue.Dequeue();
+            DoOnAdjacentCells(current, cell =>
             {
-                cell.IsOpen = true;
-                ClearedCells++;
-                if (cell.AdjacentMines == 0 && !cell.HasMine)
+                if (!cell.IsOpen && !cell.IsFlagged)
                 {
-                    OpenRecursively(cell.Position);
+                    cell.IsOpen = true;
+                    ClearedCells++;
+
+                    if (cell.AdjacentMines == 0 && !cell.HasMine)
+                    {
+                        queue.Enqueue(cell.Position);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     private void DoOnAdjacentCells((int x, int y) position, Action<CaseInfo> action)
@@ -144,8 +150,4 @@ public partial class Plateau : IDisposable
         }
     }
 
-    public void Dispose()
-    {
-        Mediator<ClickMessage>.Instance.Unsubscribe(OnClick);
-    }
 }

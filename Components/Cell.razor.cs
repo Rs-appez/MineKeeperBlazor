@@ -9,6 +9,8 @@ public partial class Cell
 {
     [Parameter]
     public CaseInfo? CurrentCase { get; set; }
+    [Parameter]
+    public EventCallback<(int,int)> OnCellClick { get; set; }
 
     private void FlagCell(MouseEventArgs e)
     {
@@ -22,10 +24,11 @@ public partial class Cell
     {
         if (CurrentCase is not null)
         {
-            if (!CurrentCase.IsFlagged)
+            if (!CurrentCase.IsFlagged && !CurrentCase.IsOpen)
             {
                 CurrentCase.IsOpen = true;
-                Mediator<ClickMessage>.Instance.Notify(new ClickMessage(CurrentCase.Position));
+                // Mediator<ClickMessage>.Instance.Notify(new ClickMessage(CurrentCase.Position));
+                OnCellClick.InvokeAsync(CurrentCase.Position);
             }
         }
     }
